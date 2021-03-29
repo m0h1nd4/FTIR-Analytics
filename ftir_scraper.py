@@ -29,10 +29,10 @@ __copyright__ = "Copyright 2021"
 __credits__ = ["--"]
 __license__ = "GPL"
 __version__ = "0.03.28"
-__maintainer__ = "Rob Knight"
+__maintainer__ = ""
 __utilize__ = "FTIR evaluation"  # What it is!
 __email__ = "--"
-__status__ = "Production"
+__status__ = "origination"
 
 # variable
 root_dir = os.path.dirname(os.path.abspath(__file__))  # This find the Project Root
