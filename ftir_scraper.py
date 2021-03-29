@@ -70,7 +70,7 @@ Mb = Kb * 1024
 Gb = Mb * 1024
 Tb = Gb * 1024
 
-# matplotlib.rc('text', usetex=True)
+
 
 no_go = ['Water vapor',
          'Messstelle',
@@ -162,16 +162,6 @@ class ViewFinder:
             dir_c += 1
             dic_allfinder[dir_c] = sep_file
 
-    # def dirfinder(self):  # separate the file folders with the keys of the "allfinder" function
-    #    for i in file_found:
-    #        i = str(i).split('\\')
-    #        print('\\'.join(i[:-1]))
-
-    # def filefinder(self):  # separate the file names with the keys of the "allfinder" function
-    #    for i in (file_found):
-    #        i = str(i).split('\\')
-            # print(i[-1])
-
 
 class ChemOpener:
     name = 'Chem Opener'
@@ -208,10 +198,7 @@ class ReportAnalytic:
                 # print(dic_timestamp_clean)
             except TypeError:
                 dic_timestamp_clean[id] = date_time
-        # for i, a in dic_timestamp_clean.items():
-
-        # print(a)
-
+       
     def chemrange(self):
         global dic_result_clean
         for id, ppm in dic_result.items():
@@ -224,12 +211,7 @@ class ReportAnalytic:
                 dic_result_clean[id] = ppm
             except ValueError:
                 dic_result_clean[id] = ppm
-
-        # for i, a in dic_result_clean.items():
-        #    print(i ,a)
-
-        # print(f'range: {dic_result_clean[2]} ppm - {dic_result_clean[dic_result_clean.__len__()]} ppm')
-
+                
     def chemreport(self):
         pass
 
@@ -245,11 +227,9 @@ class ReportAnalytic:
             except ValueError:
                 # print(value) # debugging
                 pass
+        
         # interpolation
-        # for i, a in dic_max.items():
-        #    print(i,a)
-        # print(dic_min)
-        # print(dic_max)
+
         x1 = (list(dic_min.items())[-1])[1]
 
         for key, value in dic_timestamp_clean.items():
@@ -262,23 +242,18 @@ class ReportAnalytic:
             if key == (list(dic_max.items())[0])[0]:
                 y2 = (value)
 
-        # print('y', y1, y2) # debugging
-        # print('x', x1, x2) # debugging
+
 
         for key, value in dic_timestamp_clean.items():
             if key == 2:
                 y_base = value
-        # print('y_base: ', y_base) # debugging
+
 
         y1 = y1 - y_base
         y2 = y2 - y_base
-        # print(y1, y2) # debugging
 
         inter_time = float(y1) + (((float(y2) - float(y1)) / (float(x2) - float(x1))) * (float(t_value) - float(x1)))
-        # print(inter_time)
         print('time threshold: ', (str(range_quest) + 'ppm'), time.strftime('%H:%M:%S', time.gmtime(inter_time)))
-        # print('time threshold: ', datetime.timedelta(seconds=inter_time))
-        # print(time.strftime('%H:%M:%S', time.gmtime(inter_time)))
 
 
 class DataQuery:
@@ -306,11 +281,8 @@ class DataQuery:
 
         headers = ['ID', 'Folder', 'Filename', 'Size', 'Date']
 
-        # print(data)
-
         table = columnar(data, headers, no_borders=False)
         print(table)
-        # f_query = input('which file should be evaluated? please specify ID: ') -> main
 
     def samplequery(self):
         x = 0
@@ -344,12 +316,8 @@ class DataQuery:
                     if value == chem:
                         x_count += 1
                         data[x_count - 1].extend((id, chem, chemNo))
-            # print(dic_first) #debugging
-            # print(dic_chem) #debugging
 
         headers = ['ID', 'chemical substance for evaluation', 'class No.']
-
-        # print(data)
 
         table = columnar(data, headers, no_borders=False)
         print(table)
@@ -367,21 +335,16 @@ class Plotting:
 
     def x_line(self):  # time
         global list_xline
-        # print(a)
 
         for key, value in dic_timestamp_clean.items():
             try:
-                # print(value)
-                # list_xline.append(time.strftime('%H:%M:%S', time.gmtime((value))))
                 list_xline.append(float(value))
             except TypeError:
                 pass
-        # print('x', list_xline.__len__())
 
     def y_line(self):
         global listkey, list_yline
         for key, value in dic_result_clean.items():
-            # print(key, value)
             try:
                 if float(value) <= int(range_quest):
                     list_yline.append(float(value))
@@ -389,15 +352,10 @@ class Plotting:
             except ValueError:
                 pass
 
-        # print(range_quest)
-
     def matplot(self):
-        # print(list_yline.__len__())
-        # print(list_xline.__len__())
         x = (np.array(list_xline))
         y = (np.array(list_yline))
         f = plt.figure()
-        # print(list_xline)
         plt.title('Sample: ' + sa_desig + ' Sample number: ' + sa_no)
         plt.suptitle(dt.date.today())
         plt.text(0.5, 100.0, 'searched measured value: ' + (str(range_quest) + 'ppm') + ' time threshold: ' + str(time.strftime('%H:%M:%S', time.gmtime(inter_time))))
@@ -407,9 +365,8 @@ class Plotting:
         f.savefig(str(fi_ana) + ".pdf", bbox_inches='tight')
         f.savefig(str(fi_ana) + ".png", bbox_inches='tight')
         print(str(fi_ana) + ".pdf")
-        #plt.show()
 
-
+        
 class CSVExport:
 
     def csvexp(self):
@@ -453,8 +410,6 @@ def main():
 
 
     allF.allfinder()
-    # allF.dirfinder()
-    # allF.filefinder()
     daQu.filequery()
 
     # file query
@@ -466,9 +421,7 @@ def main():
         analyse_file = input('which file should be evaluated: ')
         if analyse_file in list_count:
             print(f'reading File "{file_x}"!')
-            # time.sleep(2)
             os.system('cls')
-            # print()
         else:
             print("Nope! Please try again, and use only the ID index!!")
 
@@ -489,21 +442,17 @@ def main():
         if chem_quest in chem_count:
 
             for key, value in dic_chem.items():
-                # print(chem_quest)
                 if value == int(chem_quest):
                     searching = key
 
             for key, value in dic_first.items():
-                # print(searching)
                 if value == str(searching):
-                    # print(key) # debugging
                     search_key = key
 
             print(f'searching chem "{searching}"!')
         else:
             print("Nope! Please try again, and use only the ID index!!")
 
-    # time.sleep(2)
     os.system('cls')
     print()
 
@@ -526,7 +475,6 @@ def main():
         else:
             print("Nope!")
 
-    # ime.sleep(2)
     os.system('cls')
     print()
     reAn.inerpolation()
